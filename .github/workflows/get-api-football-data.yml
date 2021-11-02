@@ -28,7 +28,7 @@ jobs:
           curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" -o latest_standings.json "https://v3.football.api-sports.io/standings?league=207&season=2021"
           cp latest_standings.json standings_${{steps.date.outputs.date}}.json
           current_round=$(curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" "https://v3.football.api-sports.io/fixtures/rounds?league=207&season=2021&current=true" | jq -r '.response[0]' | sed -r 's/[ ]+/%20/g')
-          curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" -o latest_round.json "https://v3.football.api-sports.io/fixtures?league=207?season=2021?round=${current_round}"
+          curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" -o latest_round.json "https://v3.football.api-sports.io/fixtures?league=207&season=2021&round=${current_round}"
           cp latest_round.json round_${{steps.date.outputs.date}}.json
 
       - name: Pushes latest round to data store
