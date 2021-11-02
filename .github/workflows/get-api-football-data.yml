@@ -36,6 +36,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
+          github_server: 'github.com'
           source_file: 'latest_standings.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           user_email: '84205797+benso-bot@users.noreply.github.com'
@@ -47,6 +48,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
+          github_server: 'github.com'
           source_file: 'latest_round.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           user_email: '84205797+benso-bot@users.noreply.github.com'
@@ -58,6 +60,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
+          github_server: 'github.com'
           source_file: 'standings_${{steps.date.outputs.date}}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_folder: 'standings'
@@ -70,6 +73,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
+          github_server: 'github.com'
           source_file: 'round_${{steps.date.outputs.date}}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_folder: 'rounds'
