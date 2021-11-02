@@ -63,7 +63,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
           git_server: 'github.com'
-          source_file: 'standings_${{steps.date.outputs.date}}.json'
+          source_file: 'standings_${{ steps.date.outputs.current_week }}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
           destination_folder: 'standings'
@@ -77,7 +77,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
           git_server: 'github.com'
-          source_file: 'round_${{steps.date.outputs.date}}.json'
+          source_file: 'round_${{ steps.date.outputs.current_week }}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
           destination_folder: 'rounds'
