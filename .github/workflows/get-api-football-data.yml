@@ -20,16 +20,19 @@ jobs:
     steps:
       - name: Get current week
         id: date
-        run: echo "::set-output name=current_week::$(date +"%U")"
+        run: echo "::set-output name=current_year::$(date +"%Y_")"
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Get API data and save files
+        id: rapid-api-call
         run: |
+          current_round_string=$(curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" "https://v3.football.api-sports.io/fixtures/rounds?league=207&season=2021&current=true" | jq -r '.response[0]' | sed -r 's/[ ]+/%20/g')
+          current_round_number=$(echo ${current_round_string} | grep -P '\d+(?!.*-)' -o)
+          echo "::set-output name=current_round_number::$(echo ${current_round_number})"
           curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" -o latest_standings.json "https://v3.football.api-sports.io/standings?league=207&season=2021"
-          cp latest_standings.json standings_${{ steps.date.outputs.current_week }}.json
-          current_round=$(curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" "https://v3.football.api-sports.io/fixtures/rounds?league=207&season=2021&current=true" | jq -r '.response[0]' | sed -r 's/[ ]+/%20/g')
+          cp latest_standings.json ${{ steps.date.outputs.current_year }}_${current_round_number}_standings.json
           curl -H "x-rapidapi-key: ${{ secrets.RAPID_API_KEY }}" -H "x-rapidapi-host: v3.football.api-sports.io" -o latest_round.json "https://v3.football.api-sports.io/fixtures?league=207&season=2021&round=${current_round}"
-          cp latest_round.json round_${{ steps.date.outputs.current_week }}.json
+          cp latest_round.json ${{ steps.date.outputs.current_year }}_${current_round_number}_round.json
 
       - name: Pushes latest round to data store
         uses: TomoeMami/copy_file_to_another_repo_action@main
@@ -63,10 +66,9 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
           git_server: 'github.com'
-          source_file: 'standings_${{ steps.date.outputs.current_week }}.json'
+          source_file: '${{ steps.date.outputs.current_year }}_${{ steps.rapid-api-call.outputs.current_round_number }}_standings.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
-          destination_folder: 'standings'
           user_email: '84205797+benso-bot@users.noreply.github.com'
           user_name: 'benso-bot'
           commit_message: 'archive standings'
@@ -77,10 +79,9 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
           git_server: 'github.com'
-          source_file: 'round_${{ steps.date.outputs.current_week }}.json'
+          source_file: '${{ steps.date.outputs.current_year }}_${{ steps.rapid-api-call.outputs.current_round_number }}round.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
-          destination_folder: 'rounds'
           user_email: '84205797+benso-bot@users.noreply.github.com'
           user_name: 'benso-bot'
           commit_message: 'archive round'
