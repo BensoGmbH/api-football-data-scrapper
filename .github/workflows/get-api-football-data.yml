@@ -32,11 +32,11 @@ jobs:
           cp latest_round.json round_${{steps.date.outputs.date}}.json
 
       - name: Pushes latest round to data store
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: TomoeMami/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
-          github_server: 'github.com'
+          git_server: 'github.com'
           source_file: 'latest_standings.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           user_email: '84205797+benso-bot@users.noreply.github.com'
@@ -44,11 +44,11 @@ jobs:
           commit_message: 'added latest standings'
 
       - name: Pushes latest round to data store
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: TomoeMami/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
-          github_server: 'github.com'
+          git_server: 'github.com'
           source_file: 'latest_round.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           user_email: '84205797+benso-bot@users.noreply.github.com'
@@ -56,11 +56,11 @@ jobs:
           commit_message: 'added latest round'
 
       - name: Pushes standings to data-store archive
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: TomoeMami/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
-          github_server: 'github.com'
+          git_server: 'github.com'
           source_file: 'standings_${{steps.date.outputs.date}}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_folder: 'standings'
@@ -69,11 +69,11 @@ jobs:
           commit_message: 'archive standings'
 
       - name: Pushes round to data-store archive
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: TomoeMami/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
-          github_server: 'github.com'
+          git_server: 'github.com'
           source_file: 'round_${{steps.date.outputs.date}}.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_folder: 'rounds'
