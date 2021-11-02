@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Get current week
         id: date
-        run: echo "::set-output name=current_year::$(date +"%Y_")"
+        run: echo "::set-output name=current_year::$(date +"%Y")"
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Get API data and save files
@@ -79,7 +79,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.BENSO_BOT }}
         with:
           git_server: 'github.com'
-          source_file: '${{ steps.date.outputs.current_year }}_${{ steps.rapid-api-call.outputs.current_round_number }}round.json'
+          source_file: '${{ steps.date.outputs.current_year }}_${{ steps.rapid-api-call.outputs.current_round_number }}_round.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
           user_email: '84205797+benso-bot@users.noreply.github.com'
