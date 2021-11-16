@@ -44,7 +44,7 @@ jobs:
           source_file: 'latest_standings.json'
           destination_repo: 'BensoGmbH/superleague-data-store'
           destination_branch: 'master'
-          user_email: '84205797+benso-bot@users.noreply.github.com'
+          user_email: ${{ secrets.BENSO_EMAIL }}
           user_name: 'benso-bot'
           commit_message: 'added latest standings'
 
