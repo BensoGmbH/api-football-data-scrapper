@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Get current year
         id: date
-        run: if [ $(date +%m) -le 6) ]; then echo "::set-output name=current_year::$(date --d 'last year' +%Y); else echo "::set-output name=current_year::$(date +%Y)"; fi
+        run: if [ $(date +%m) -le 6 ]; then echo "::set-output name=current_year::$(date --d 'last year' +%Y); else echo "::set-output name=current_year::$(date +%Y)"; fi
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Get API data and save files
